@@ -1,50 +1,24 @@
 package Q12;
 
-import java.util.Scanner;
+interface UserAuthenticator {
+    boolean authenticate(String username, String password);
+}
 
-// Controller (server-side)
 class UserController {
+    UserAuthenticator authenticator;
+
+    public UserController(UserAuthenticator authenticator) {
+        this.authenticator = authenticator;
+    }
+
     public boolean login(String username, String password) {
-        // Authenticate user
-        if (authenticate(username, password)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private boolean authenticate(String username, String password) {
-        // Logic to authenticate user
-        return true; // Placeholder for actual authentication logic
+        return authenticator.authenticate(username, password);
     }
 }
 
-// Model (server-side)
-class User {
-    private String username;
-    private String password;
-
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+class SimpleAuthenticator implements UserAuthenticator {
+    public boolean authenticate(String username, String password) {
+        // Placeholder logic for authentication
+        return "user".equals(username) && "pass".equals(password);
     }
 }
-
-// View (client-side - smartphone app)
-class UserView {
-    public void displayLoginPrompt() {
-        System.out.println("Please enter your username and password:");
-    }
-
-    public String[] getUserInput() {
-        Scanner scanner = new Scanner(System.in);
-        String username = scanner.nextLine();
-        String password = scanner.nextLine();
-        return new String[]{username, password};
-    }
-}
-
-
-
-
-

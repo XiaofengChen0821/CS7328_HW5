@@ -1,21 +1,37 @@
 package Q12;
 
-// Client code
 public class Client {
+
     public static void main(String[] args) {
-        UserView userView = new UserView();
-        UserController userController = new UserController();
+        // Create an instance of the authenticator
+        UserAuthenticator authenticator = new SimpleAuthenticator();
 
-        userView.displayLoginPrompt();
-        String[] userInput = userView.getUserInput();
-        String username = userInput[0];
-        String password = userInput[1];
+        // Create the UserController with the specific authenticator
+        UserController userController = new UserController(authenticator);
 
-        if (userController.login(username, password)) {
-            System.out.println("Login successful");
+        // Sample username and password
+        String username = "user";
+        String password = "pass";
+
+        // Attempt to login with the given username and password
+        boolean loginResult = userController.login(username, password);
+
+        // Print out the result of the login attempt
+        if (loginResult) {
+            System.out.println("Login successful!");
         } else {
-            System.out.println("Login failed");
+            System.out.println("Login failed!");
+        }
+
+        // Attempt to login with incorrect credentials
+        String wrongPassword = "wrongpass";
+        boolean wrongLoginResult = userController.login(username, wrongPassword);
+
+        // Print out the result of the login attempt with incorrect credentials
+        if (wrongLoginResult) {
+            System.out.println("Login successful with wrong password!");
+        } else {
+            System.out.println("Login failed with wrong password.");
         }
     }
 }
-
